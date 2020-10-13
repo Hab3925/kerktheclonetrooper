@@ -10,6 +10,8 @@ let sites = new Enmap({
 
 let htmlPath = path.join(__dirname, 'views');
 app.use(express.static(htmlPath));
+app.set('view engine', 'ejs')
+app.engine('html', ejs.renderFile);
 
 app.get("/admin", (req, res) => {
     let accessCode = req.query.code
@@ -22,20 +24,24 @@ app.get("/admin", (req, res) => {
             res.redirect("/admin?code=" + code)
         }
     } else if (accessCode == code) {
-        res.render("admin.html")
+        res.render("admin")
     }
 })
 
 app.get("/", (req, res) => {
-    res.render("index.html")
+    res.render("index")
 })
 app.get("/about", (req, res) => {
-    res.render("about.html")
+    res.render("about")
 })
 app.get("/store", (req, res) => {
     res.render("/temp/store.ejs")
 })
 
+/**
+ * Generates string of random characters
+ * @param {number} length Length of string you want generated
+ */
 makekey = (length) => {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
