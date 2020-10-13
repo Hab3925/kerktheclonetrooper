@@ -8,6 +8,14 @@
 <body>
     <h1 id="loginTitle">Enter the password to access the admin page</h1>
     <input type="password" id="login" autofocus>
-    <script src="./js/login.js"></script>
+    <script>
+        const login = document.getElementById("login")
+
+        login.addEventListener("keyup", (e) => {
+            if (e.code === "Enter") {
+                window.location.replace(window.location.href + "?password=" + login.value)
+            }
+        })
+    </script>
 </body>
 </html>
