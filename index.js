@@ -18,7 +18,7 @@ let code = makekey(10)
 
 setInterval(() => {
     code = makekey(10)
-}, 60000);
+}, 1800000);
 
 app.get("/admin", (req, res) => {
     let host = req.get('host');
@@ -28,14 +28,15 @@ app.get("/admin", (req, res) => {
     if (!accessCode && !password) {
         res.render("login.html")
     } else if (password && !accessCode) {
-        console.log(password)
         if (password == "tBpnQmy4rj") {
             res.redirect("/admin?code=" + code)
         } else {
             res.redirect("denied.html")
         }
     } else if (accessCode == code) {
-        res.render("admin.html")
+        res.render("temp/admin")
+    } else {
+        res.redirect("denied.html")
     }
 })
 
