@@ -6,6 +6,16 @@
     <title>Admin</title>
 </head>
 <body>
-    
+    <h1>Products:</h1>
+    <input type="button" value="Add product" id="new">
+    <%- sites %>
+    <%- promoCodes %>
+    <script>
+        const newProduct = document.getElementById("new")
+
+        newProduct.addEventListener('click', (e) => {
+            window.location.replace("/addProduct")
+        })
+    </script>
 </body>
 </html>

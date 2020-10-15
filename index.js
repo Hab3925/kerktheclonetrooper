@@ -5,8 +5,11 @@ const path = require('path');
 let domain = "localhost:3000"
 
 const Enmap = require("enmap");
-let sites = new Enmap({
-    name: "sites"
+let products = new Enmap({
+    name: "products"
+})
+let promocodes = new Enmap({
+    name: "promocodes"
 })
 
 let htmlPath = path.join(__dirname, 'views');
@@ -28,26 +31,39 @@ app.get("/admin", (req, res) => {
     if (!accessCode && !password) {
         res.render("login.html")
     } else if (password && !accessCode) {
-        if (password == "tBpnQmy4rj") {
+        if (password == "test") {
             res.redirect("/admin?code=" + code)
         } else {
             res.redirect("denied.html")
         }
     } else if (accessCode == code) {
-        res.render("temp/admin")
+        res.render("temp/admin", {
+            sites: "Sites"
+        })
     } else {
         res.redirect("denied.html")
     }
 })
 
 app.get("/", (req, res) => {
+    let host = req.get('host');
+    if (host !== domain) return
     res.render("index")
 })
 app.get("/about", (req, res) => {
+    let host = req.get('host');
+    if (host !== domain) return
     res.render("about")
 })
 app.get("/store", (req, res) => {
-    res.render("/temp/store.ejs")
+    let host = req.get('host');
+    if (host !== domain) return
+    res.render("temp/store.ejs")
+})
+app.get("/addProduct", (req, res) => {
+    let host = req.get('host');
+    if (host !== domain) return
+    res.render("temp/addProduct.ejs")
 })
 
 /**
@@ -62,6 +78,14 @@ function makekey(length) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+function renderCodes() {
+    promocodes.forEach()
+}
+
+function generateCodes(number) {
+    
 }
 
 let server = app.listen(3000, function () {
