@@ -38,7 +38,8 @@ app.get("/admin", (req, res) => {
         }
     } else if (accessCode == code) {
         res.render("temp/admin", {
-            sites: "Sites"
+            sites: "Sites",
+            promoCodes: "Codes"
         })
     } else {
         res.redirect("denied.html")
@@ -53,7 +54,7 @@ app.get("/", (req, res) => {
 app.get("/about", (req, res) => {
     let host = req.get('host');
     if (host !== domain) return
-    res.render("about")
+    res.render("about.html")
 })
 app.get("/store", (req, res) => {
     let host = req.get('host');
@@ -81,11 +82,27 @@ function makekey(length) {
 }
 
 function renderCodes() {
-    promocodes.forEach()
+    promocodes.get('codes').forEach(c => {
+
+    })
 }
 
+/**
+ * Generates promocodes and saves them, returns generated promocodes
+ * @param {number} number Amount of codes you want to generate
+ */
 function generateCodes(number) {
-    
+    let codes = []
+    for (i = 0; i < number; i++) {
+        let promoCode = makekey(5)
+        codes.push(promoCode)
+    }
+    let allCodes = codes
+    promocodes.get('codes').forEach(c => {
+        allCodes.push(c)
+    })
+    promocodes.set('codes', allCodes)
+    return codes
 }
 
 let server = app.listen(3000, function () {

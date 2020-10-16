@@ -2,6 +2,29 @@ body{
     background-image: url('./../img/background.png');
 }
 
+#title {
+    color: #D71111;
+    font-family: "Audiowide";
+    text-align: center;
+}
+
+#info {
+    color: white;
+    line-height: 40px;
+    font-family: "Audiowide";
+    text-align: center;    
+}
+
+
+#e-mail{
+    color: #FFBE00;
+}
+
+#e-mail:hover{
+    color:#FFDF00 ;
+}
+
+
 #banner{
     position: relative;
     height: 350px;
@@ -43,5 +66,6 @@ a{
     border-width: 1px;
     border-color: black;
     font-family: 'Audiowide';
+    font-size: 10px;
 }
 

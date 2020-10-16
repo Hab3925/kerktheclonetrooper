@@ -2,15 +2,10 @@ body{
     background-image: url('/views//img/background.png');
 }
 
-@font-face {
-    font-family: starWars;
-    src: url('https://www.starwarsfont.com/fonts/star_jedi');
-}
-
 #title{
     color: white;
     position: relative;
     text-align: center;
     top: 300px;
-    font-family: starWars;
+    font-family: 'Audiowide';
 }
