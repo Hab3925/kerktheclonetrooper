@@ -89,11 +89,11 @@ function renderCodes() {
 
 /**
  * Generates promocodes and saves them, returns generated promocodes
- * @param {number} number Amount of codes you want to generate
+ * @param {number} amt Amount of codes you want to generate
  */
-function generateCodes(number) {
+function generateCodes(amt) {
     let codes = []
-    for (i = 0; i < number; i++) {
+    for (i = 0; i < amt; i++) {
         let promoCode = makekey(5)
         codes.push(promoCode)
     }

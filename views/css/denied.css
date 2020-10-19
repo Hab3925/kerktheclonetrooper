@@ -1,11 +1,11 @@
 body{
-    background-image: url('/views//img/background.png');
+    background-image: url('./../img/background.png');
 }
 
 #title{
-    color: white;
+    color: red;
     position: relative;
     text-align: center;
-    top: 300px;
+    top: 275px;
     font-family: 'Audiowide';
 }
