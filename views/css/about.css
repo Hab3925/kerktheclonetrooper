@@ -56,11 +56,12 @@ a{
 .topNav{
     text-align: center;
     font-size: 23px;
+    height: 200px;
 }
 
 .buttons {
     position: relative;
-    top: -220px;
+    top: -200px;
     border-width: 1px;
     border-color: black;
     font-family: 'Audiowide';
@@ -71,7 +72,26 @@ a{
     width: 100%;
     height: auto;
     top: -100px;
+}
 
+@media only screen and (max-width: 550px){
+    .buttons{
+        position: relative;
+        font-size: 20px;
+        top: -170px;
+    }
+}
+
+@media only screen and (max-width: 400px){
+    #banner {
+        position: relative;
+        top: -75px;
+    }
+    .buttons{
+        margin: 10px;
+        position: relative;
+        top: -150px;
+    }
 }
 
 @media only screen and (min-width: 646px) {    
