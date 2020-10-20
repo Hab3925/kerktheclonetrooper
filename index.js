@@ -18,7 +18,6 @@ app.set('view engine', 'ejs')
 app.engine('html', ejs.renderFile);
 
 let code = makekey(10)
-
 setInterval(() => {
     code = makekey(10)
 }, 1800000);
@@ -67,18 +66,17 @@ app.get("/addProduct", (req, res) => {
     res.render("temp/addProduct.ejs")
 })
 
-/**
- * Generates string of random characters
- * @param {number} length Length of string you want generated
- */
-function makekey(length) {
-    let result = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+function renderStore() {
+    let output = '';
+    products.forEach(product => {
+        let html = `
+        <div class="product">
+            <img src="" alt="preview" id="preview">
+            <h1 id="title"></h1>
+            <p id="price"></p>
+        </div>
+        `
+    })
 }
 
 function renderCodes() {
@@ -103,6 +101,21 @@ function generateCodes(amt) {
     })
     promocodes.set('codes', allCodes)
     return codes
+}
+
+
+/**
+ * Generates string of random characters
+ * @param {number} length Length of string you want generated
+ */
+function makekey(length) {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
 
 let server = app.listen(3000, function () {
