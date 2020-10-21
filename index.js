@@ -58,7 +58,9 @@ app.get("/about", (req, res) => {
 app.get("/store", (req, res) => {
     let host = req.get('host');
     if (host !== domain) return
-    res.render("temp/store.ejs")
+    res.render("temp/store", {
+        products: "Product"
+    })
 })
 app.get("/addProduct", (req, res) => {
     let host = req.get('host');
@@ -72,8 +74,8 @@ function renderStore() {
         let html = `
         <div class="product">
             <img src="" alt="preview" id="preview">
-            <h1 id="title"></h1>
-            <p id="price"></p>
+            <h1 id="title">${product.title}</h1>
+            <p id="price">${product.price}</p>
         </div>
         `
     })
