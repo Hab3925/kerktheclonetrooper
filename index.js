@@ -2,6 +2,23 @@ const express = require("express");
 const app = express();
 const ejs = require("ejs")
 const path = require('path');
+const multer = require('multer');
+const fs = require("fs")
+
+// Multer configuration
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname)
+    }
+})
+
+let upload = multer({
+    storage: storage
+})
+
 let domain = "localhost:3000"
 
 const Enmap = require("enmap");
@@ -65,7 +82,22 @@ app.get("/store", (req, res) => {
 app.get("/addProduct", (req, res) => {
     let host = req.get('host');
     if (host !== domain) return
-    res.render("temp/addProduct.ejs")
+    let accessCode = req.query.code
+
+    if (accessCode == code) {
+        res.render("temp/addProduct.ejs")
+    } else {
+        res.redirect("denied.html")
+    }
+})
+
+//Handles the addProduct image upload
+app.post('/upload', upload.single("image"), (req) => {
+    let file = req.filename
+    const obj = {
+        name: file
+
+    }
 })
 
 function renderStore() {

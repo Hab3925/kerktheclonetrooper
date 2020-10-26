@@ -10,11 +10,14 @@
     <input type="button" value="Add product" id="new">
     <%- sites %>
     <%- promoCodes %>
+
+    <script src="./../js/main.js"></script>
     <script>
         const newProduct = document.getElementById("new")
+        let code = getUrlParam('code')
 
         newProduct.addEventListener('click', (e) => {
-            window.location.replace("/addProduct")
+            window.location.replace(`/addProduct?code=${code}`)
         })
     </script>
 </body>
