@@ -11,7 +11,8 @@
 <body>
     <input type="text" id="title" placeholder="Title..." maxlength="25">
     <input type="text" id="desc" placeholder="Description..." maxlength="200">
-    <input type="number" id="price" placeholder="price" max="5">
+    <input type="number" id="price" placeholder="Price" min="0" max="1000" step="10">
+
     <div id="drop-region">
         <div class="drop-message">
             Drag & Drop images or click to upload
@@ -20,6 +21,7 @@
     </div>
     <input type="button" value="Save" id="save">
 
+    <script src="./../js/main.js"></script>
     <script>
         let dropRegion = document.getElementById("drop-region"),
             imagePreviewRegion = document.getElementById("image-preview"),
@@ -27,9 +29,37 @@
 
         let fakeInput = document.createElement("input");
 
+        console.log(getCookie("code"))
+
         fakeInput.type = "file";
         fakeInput.accept = "image/*";
-        fakeInput.multiple = false;
+        fakeInput.multiple = true;
+
+        let imgData = []
+
+        let title = document.getElementById("title"),
+            desc = document.getElementById("desc"),
+            price = document.getElementById("price")
+
+        saveButton.addEventListener('click', (e) => {
+            if (!title.value) return alert("You're misssing the title.")
+            if (!desc.value) return alert("You're missing the description")
+            if (!price.value) return alert("You haven't given a price.")
+            let data = {
+                title: title.value,
+                desc: desc.value,
+                price: price.value
+            }
+
+            if (imgData[0]) {
+                imgData.forEach(img => {
+                    if (!img.overlay) return alert("Missing image")
+                    uploadImage(img.image, img.overlay, data)
+                })
+            } else {
+                alert("Missing image")
+            }
+        })
 
         dropRegion.addEventListener('click', function () {
             fakeInput.click();
@@ -100,9 +130,10 @@
         dropRegion.addEventListener('drop', handleDrop, false);
 
         function handleFiles(files) {
+            if (files.length > 5) return alert("Too many images")
             for (i = 0, len = files.length; i < len; i++) {
                 if (validateImage(files[i]))
-                    previewAnduploadImage(files[i]);
+                    previewImage(files[i]);
             }
         }
 
@@ -124,8 +155,7 @@
             return true;
         }
 
-
-        function previewAnduploadImage(image) {
+        function previewImage(image) {
 
             // container
             var imgView = document.createElement("div");
@@ -139,6 +169,7 @@
             // progress overlay
             var overlay = document.createElement("div");
             overlay.className = "overlay";
+            overlay.setAttribute("id", "overlay")
             imgView.appendChild(overlay);
 
             // read the image...
@@ -148,23 +179,17 @@
             }
             reader.readAsDataURL(image)
 
+            imgData.push({ image: image, overlay: overlay })
+        }
+
+        function uploadImage(image, overlay, data) {
             // create FormData
             var formData = new FormData();
             formData.append('image', image);
-            console.log(image)
+            formData.append('data', JSON.stringify(data))
 
             var ajax = new XMLHttpRequest();
             ajax.open("POST", "/upload", true);
-
-            ajax.onreadystatechange = function (e) {
-                if (ajax.readyState === 4) {
-                    if (ajax.status === 200) {
-                        // done!
-                    } else {
-                        // error!
-                    }
-                }
-            }
 
             ajax.upload.onprogress = function (e) {
                 // change progress

@@ -3,7 +3,13 @@ const app = express();
 const ejs = require("ejs")
 const path = require('path');
 const multer = require('multer');
+const cookieParser = require('cookie-parser');
 const fs = require("fs")
+const bodyParser = require('body-parser')
+
+const {
+    inspect
+} = require("util");
 
 // Multer configuration
 let storage = multer.diskStorage({
@@ -29,14 +35,26 @@ let promocodes = new Enmap({
     name: "promocodes"
 })
 
+if (!products.has("id")) {
+    products.set("id", 1)
+}
+
 let htmlPath = path.join(__dirname, 'views');
 app.use(express.static(htmlPath));
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({
+    extended: true
+})) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser());
 app.set('view engine', 'ejs')
 app.engine('html', ejs.renderFile);
 
-let code = makekey(10)
+let code = {
+    code: makekey(10),
+    expires: Date.now() + 1800000
+}
 setInterval(() => {
-    code = makekey(10)
+    code.code = makekey(10)
 }, 1800000);
 
 app.get("/admin", (req, res) => {
@@ -48,11 +66,12 @@ app.get("/admin", (req, res) => {
         res.render("login.html")
     } else if (password && !accessCode) {
         if (password == "test") {
-            res.redirect("/admin?code=" + code)
+            res.redirect("/admin?code=" + code.code)
+
         } else {
             res.redirect("denied.html")
         }
-    } else if (accessCode == code) {
+    } else if (accessCode == code.code) {
         res.render("temp/admin", {
             sites: "Sites",
             promoCodes: "Codes"
@@ -84,20 +103,35 @@ app.get("/addProduct", (req, res) => {
     if (host !== domain) return
     let accessCode = req.query.code
 
-    if (accessCode == code) {
+    if (accessCode == code.code) {
         res.render("temp/addProduct.ejs")
     } else {
         res.redirect("denied.html")
     }
 })
 
-//Handles the addProduct image upload
-app.post('/upload', upload.single("image"), (req) => {
-    let file = req.filename
-    const obj = {
-        name: file
-
+app.get("/validateCode", (req, res) => {
+    if (req.body.code == code) {
+        res.sendStatus(200)
+        console.log("OK")
+    } else {
+        //res.redirect("/admin") (Does nothing)
+        res.sendStatus(401)
+        console.log("NOT OK")
     }
+})
+
+//Handles the addProduct image upload
+app.post('/upload', upload.single("image"), (req, res) => {
+    let data = JSON.parse(req.body.data)
+    data.filename = req.file.filename
+
+    products.set(products.get("id").toString(), data)
+    products.set("id", products.get("id") + 1)
+
+    console.log(products)
+    res.sendStatus(200)
+
 })
 
 function renderStore() {
