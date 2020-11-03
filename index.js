@@ -6,6 +6,7 @@ const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const fs = require("fs")
 const bodyParser = require('body-parser')
+let resetEnmap = true //false
 
 const {
     inspect
@@ -28,6 +29,9 @@ let upload = multer({
 let domain = "localhost:3000"
 
 const Enmap = require("enmap");
+const {
+    reset
+} = require("nodemon");
 let products = new Enmap({
     name: "products"
 })
@@ -36,6 +40,10 @@ let promocodes = new Enmap({
 })
 
 if (!products.has("id")) {
+    products.set("id", 1)
+}
+if (resetEnmap) {
+    products.deleteAll()
     products.set("id", 1)
 }
 
