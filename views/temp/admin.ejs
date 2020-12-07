@@ -8,16 +8,26 @@
 <body>
     <h1>Products:</h1>
     <input type="button" value="Add product" id="new">
+    <input type="button" value="Generate 10 codes" id="codes">
     <%- sites %>
-    <%- promoCodes %>
+    <li>
+        <%- promoCodes %>
+    </li>
 
     <script src="./../js/main.js"></script>
     <script>
         const newProduct = document.getElementById("new")
+        const newCodes10 = document.getElementById("codes")
         let code = getUrlParam('code')
 
         newProduct.addEventListener('click', (e) => {
             window.location.replace(`/addProduct?code=${code}`)
+        })
+
+        newCodes10.addEventListener("click", e => {
+            let ajax = new XMLHttpRequest()
+            ajax.open("POST", "/codes", true)
+            ajax.send(JSON.stringify({amt:10}))
         })
     </script>
 </body>

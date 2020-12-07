@@ -11,22 +11,36 @@ body{
     font-family: "Audiowide";
 }
 
-.inputs {
-    position: relative;
-    left: 250px;
-    top: -50px;
-    width: 500px;
+.inputs{
+    position: absolute;
+    top: -100px;
+    left: 200px;
 }
 
 ::placeholder{
     color: #D7D7D7;
 }
 
+#title {
+    position: relative;
+    top: -50px;
+    border: transparent;
+    font-family: "Audiowide";
+    color: white;
+    background-color: #424242;
+    padding: 10px;
+    border-radius: 10px;
+    width: 300px;
+}
+#title:focus {
+    outline: none;
+}
+
 #currency {
     color: white;
-    position: relative;
-    top: -67px;
     left: 540px;
+    top: -138px;
+    position: relative;
     font-family: "Audiowide";
     font-size: 12px;
     color:#D7D7D7;
@@ -35,8 +49,8 @@ body{
 
 #price {
     position:  relative;
-    top: 290px;
-    left: 490px;
+    left: 480px;
+    top: -100px;
     border: transparent;
     font-family: "Audiowide";
     color: white;
@@ -51,11 +65,11 @@ body{
 
 #desc {
     position: relative;
-    top: 240px;
-    left: 320px;
     border: transparent;
-    width: 200px;
-    height: 200px;
+    top: 290px;
+    left: 155px;
+    width: 250px;
+    height: 250px;
     padding: 10px;
     border-radius: 10px;
     font-family: "Audiowide";
@@ -69,19 +83,47 @@ body{
 
 #drop-region {
     position: relative;
-    top: -23px;
     background-color: rgb(44, 44, 44);
-    border-radius:20px;
+    border-radius: 20px;
     box-shadow:0 0 35px rgba(0,0,0,0.05);
-    width:400px;
-    height: 200px;
-    padding:60px 40px;
+    max-width: 350px;
+    height: 300px;
+    padding:60px;
     text-align: center;
     cursor:pointer;
     transition:.3s;
 }
 #drop-region:hover {
     background-color: rgb(66, 66, 66);
+}
+
+#size {
+    position:  relative;
+    left: 620px;
+    top: -177px;
+    border: transparent;
+    font-family: "Audiowide";
+    color: #D7D7D7;
+    background-color: #424242;
+    padding: 10px;
+    border-radius: 10px;
+    width: 120px;  
+}
+#size:focus{
+    outline: none;
+}
+
+#save {
+    position: relative;
+    left: 355px;
+    top: -120px;
+    border: transparent;
+    font-family: "Audiowide";
+    color: #c43939;
+    background-color: #cccccc;
+    padding: 10px;
+    border-radius: 10px;
+    width: 270px;
 }
 
 #dropmsg{

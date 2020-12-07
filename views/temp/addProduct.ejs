@@ -7,6 +7,8 @@
     <title>Add product</title>
     <link rel="stylesheet" href="./../css/addProduct.css">
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+
+
 </head>
 
 <body>
@@ -15,22 +17,30 @@
     <div class="inputs">
         <input type="text" id="title" placeholder="Title..." maxlength="25">
         <textarea id="desc" cols="30" rows="10" placeholder="Description..." maxlength="250"></textarea>
-        <input type="number" id="price" placeholder="Price" min="0" max="1000" step="10" maxlength="4">
+
         <div id="drop-region">
             <div class="drop-message">
                 <p id="dropmsg">Drag & Drop images or click to upload </p>
             </div>
             <div id="image-preview"></div>
         </div>
+        <input type="number" id="price" placeholder="Price" min="0" max="1000" step="10" maxlength="4">
         <p id="currency">(USD)</p>
+        <select id="size">
+            <option value="select">Select size</option>
+            <option value="Small">S</option>
+            <option value="Medium">M</option>
+            <option value="Large">L</option>
+        </select>
         <input type="button" value="Save" id="save">
     </div>
-    
+
 
     <script src="./../js/main.js"></script>
     <script>
         let back = document.getElementById("back")
         let code = getUrlParam('code')
+        let size = document.getElementById("size")
 
         back.addEventListener("click", e => {
             window.location.replace(`/admin?code=${code}`)
@@ -61,7 +71,8 @@
             let data = {
                 title: title.value,
                 desc: desc.value,
-                price: price.value
+                price: price.value,
+                size: size.value
             }
 
             if (imgData[0]) {

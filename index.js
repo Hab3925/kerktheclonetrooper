@@ -82,7 +82,7 @@ app.get("/admin", (req, res) => {
     } else if (accessCode == code.code) {
         res.render("temp/admin", {
             sites: "Sites",
-            promoCodes: "Codes"
+            promoCodes: renderCodes()
         })
     } else {
         res.redirect("denied.html")
@@ -142,6 +142,11 @@ app.post('/upload', upload.single("image"), (req, res) => {
 
 })
 
+app.post('/codes', (req, res) => {
+    console.log(promocodes.get('codes'))
+    generateCodes(req.body.amt)
+})
+
 function renderStore() {
     let output = '';
     products.forEach(product => {
@@ -156,9 +161,14 @@ function renderStore() {
 }
 
 function renderCodes() {
-    promocodes.get('codes').forEach(c => {
-
-    })
+    let html = ""
+    if (promocodes.has("codes")) {
+        console.log(promocodes.has("codes"))
+        promocodes.get('codes').forEach(c => {
+            html += `<ul>${c}</ul>`
+        })
+    }
+    return html
 }
 
 /**
